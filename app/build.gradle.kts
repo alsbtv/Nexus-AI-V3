@@ -17,11 +17,20 @@ android {
         ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a") }
     }
 
+    // إعدادات التوقيع لضمان التحديث بدون مسح البيانات
+    signingConfigs {
+        create("release") {
+            storeFile = file("nexus_release.keystore")
+            storePassword = "nexus123456"
+            keyAlias = "nexus_key"
+            keyPassword = "nexus123456"
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            signingConfig = signingConfigs.getByName("debug")
+            isMinifyEnabled = false // إيقاف التصغير مؤقتاً لتجنب أي مشاكل
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
