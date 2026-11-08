@@ -22,12 +22,10 @@ class ChatViewModel(app: Application) : AndroidViewModel(app) {
     var currentModel by mutableStateOf("Auto")
     var isStreaming by mutableStateOf(false)
 
-    val messages = repo.chats // dummy placeholder to satisfy initialization if needed, replaced by flatMap below
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
-
-    // We will use a simpler approach for UI state
-    fun getMessages(chatId: Long) = repo.messages(chatId)
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    // دالة عامة لتغيير المحادثة الحالية
+    fun selectChat(id: Long) {
+        currentChatId = id
+    }
 
     fun createNewChat() {
         viewModelScope.launch {
@@ -35,6 +33,9 @@ class ChatViewModel(app: Application) : AndroidViewModel(app) {
             currentChatId = id
         }
     }
+
+    fun getMessages(chatId: Long) = repo.messages(chatId)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     fun sendMessage(text: String, attachmentUri: String? = null) {
         val chatId = currentChatId ?: return
