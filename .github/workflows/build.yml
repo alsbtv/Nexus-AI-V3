@@ -15,13 +15,16 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         
-    # إجبار بيئة العمل على استخدام Gradle 8.2
     - name: Setup Gradle 8.2
       uses: gradle/actions/setup-gradle@v3
       with:
         gradle-version: 8.2
         
-    # الآن سيتم توليد الـ wrapper باستخدام 8.2 وليس 9.8.2
+    # الخطوة السحرية: بنخلي GitHub ينشئ المفتاح تلقائياً
+    - name: Generate Keystore
+      run: |
+        keytool -genkeypair -v -keystore app/nexus_release.keystore -alias nexus_key -keyalg RSA -keysize 2048 -validity 10000 -storepass nexus123456 -keypass nexus123456 -dname "CN=Nexus AI, OU=Dev, O=Nexus, L=City, ST=State, C=US"
+        
     - name: Generate Gradle Wrapper
       run: gradle wrapper
       
