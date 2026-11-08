@@ -1,0 +1,6 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><script src="https://js.puter.com/v2/"></script></head>
+<body style="background:#000;color:#fff;">
+<script>
+Object.defineProperty(navigator, 'userActivation', { get: () => ({ isActive: true, hasBeenActive: true }) });
+function askPuter(msg) { puter.ai.chat(msg).then(r => { if (window.AndroidBridge) AndroidBridge.onResponse(r.message.content); }).catch(e => { if (window.AndroidBridge) AndroidBridge.onResponse("Error: " + e); }); }
+</script></body></html>
