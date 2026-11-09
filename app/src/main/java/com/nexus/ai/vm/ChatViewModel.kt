@@ -22,7 +22,6 @@ class ChatViewModel(app: Application) : AndroidViewModel(app) {
     var currentModel by mutableStateOf("Auto")
     var isStreaming by mutableStateOf(false)
 
-    // دالة عامة لتغيير المحادثة الحالية
     fun selectChat(id: Long) {
         currentChatId = id
     }
@@ -41,7 +40,7 @@ class ChatViewModel(app: Application) : AndroidViewModel(app) {
         val chatId = currentChatId ?: return
         viewModelScope.launch {
             repo.addMessage(MessageEntity(chatId = chatId, text = text, isUser = true, attachmentUri = attachmentUri, timestamp = System.currentTimeMillis()))
-            engine.ask(text, currentModel, "")
+            engine.ask(text, currentModel)
             isStreaming = true
         }
     }

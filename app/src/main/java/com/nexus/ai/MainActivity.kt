@@ -58,7 +58,7 @@ fun NexusRoot() {
             }
         }
 
-        // الـ WebView المخفي (1dp) الذي يدير Puter
+        // الـ WebView المخفي الذي يدير Puter
         AndroidView(factory = { context ->
             WebView(context).apply {
                 settings.javaScriptEnabled = true
@@ -72,6 +72,7 @@ fun NexusRoot() {
                 }, "AndroidBridge")
                 loadUrl("file:///android_asset/puter_bridge.html")
                 webView = this
+                chatViewModel.engine.attach(this) // ربط المحرك بالـ WebView
             }
         }, modifier = Modifier.size(1.dp))
     }
